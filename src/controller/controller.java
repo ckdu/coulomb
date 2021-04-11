@@ -44,7 +44,7 @@ public class controller {
             t.textProperty().addListener(new ChangeListener<String>() {
                 @Override
                 public void changed(ObservableValue<? extends String> observable, String o, String n) {
-                    if (!n.matches("-?\\d{0,7}([\\.]\\d{0,2})?") &&  -Math.pow(10, 10) <= toDouble(n) && toDouble(n) <= Math.pow(10, 10)) {
+                    if (!n.matches("-?\\d{0,9}([\\.]\\d{0,9})?") &&  -Math.pow(10, 10) <= toDouble(n) && toDouble(n) <= Math.pow(10, 10)) {
                         t.setText(o);
                     }
                     updateGraph();
