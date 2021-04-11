@@ -1,8 +1,12 @@
 package controller;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import main.graph;
 import model.*;
@@ -28,51 +32,32 @@ public class controller {
         myModel = m;
         myView = v;
 
-        myView.getQ1chargeT().textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable,
-                    String oldValue, String newValue) {
-                updateGraph();
-            }
-        });
+        ArrayList<TextField> textfields = new ArrayList<>();
+        textfields.add(myView.getQ1chargeT());
+        textfields.add(myView.getQ2chargeT());
+        textfields.add(myView.getQ1xT());
+        textfields.add(myView.getQ1yT());
+        textfields.add(myView.getQ2xT());
+        textfields.add(myView.getQ2yT());
 
-        myView.getQ2chargeT().textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable,
-                    String oldValue, String newValue) {
-                updateGraph();
-            }
-        });
+        for (TextField t : textfields) {
+            t.textProperty().addListener(new ChangeListener<String>() {
+                @Override
+                public void changed(ObservableValue<? extends String> observable, String o, String n) {
+                    if (!n.matches("-?\\d{0,7}([\\.]\\d{0,2})?") &&  -Math.pow(10, 10) <= toDouble(n) && toDouble(n) <= Math.pow(10, 10)) {
+                        t.setText(o);
+                    }
+                    updateGraph();
+                }
+            });
+        }
 
-        myView.getQ1xT().textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable,
-                    String oldValue, String newValue) {
-                updateGraph();
-            }
-        });
-
-        myView.getQ1yT().textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable,
-                    String oldValue, String newValue) {
-                updateGraph();
-            }
-        });
-
-        myView.getQ2xT().textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable,
-                    String oldValue, String newValue) {
-                updateGraph();
-            }
-        });
-
-        myView.getQ2yT().textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable,
-                    String oldValue, String newValue) {
-                updateGraph();
+        myView.getResetB().setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent ae) {
+                for (TextField t : textfields) {
+                    t.setText("0");
+                    updateGraph();
+                }
             }
         });
     }
@@ -87,14 +72,22 @@ public class controller {
         }
     }
 
-    public void updateGraph() {
-        double q1x = Double.parseDouble(myView.getQ1xT().getText());
-        double q1y = Double.parseDouble(myView.getQ1yT().getText());
-        double q2x = Double.parseDouble(myView.getQ2xT().getText());
-        double q2y = Double.parseDouble(myView.getQ2yT().getText());
+    public double toDouble(String s) {
+        try {
+            return Double.parseDouble(s);
+        } catch (Exception e) {
+            return 0;
+        }
+    }
 
-        double q1charge = Double.parseDouble(myView.getQ1chargeT().getText());
-        double q2charge = Double.parseDouble(myView.getQ2chargeT().getText());
+    public void updateGraph() {
+        double q1x = toDouble(myView.getQ1xT().getText());
+        double q1y = toDouble(myView.getQ1yT().getText());
+        double q2x = toDouble(myView.getQ2xT().getText());
+        double q2y = toDouble(myView.getQ2yT().getText());
+
+        double q1charge = toDouble(myView.getQ1chargeT().getText());
+        double q2charge = toDouble(myView.getQ2chargeT().getText());
 
         double distance = Math.sqrt((q2x - q1x) * (q2x - q1x) + (q2y - q1y) * (q2y - q1y));
         double k = 8.987551787 * Math.pow(10, 9);

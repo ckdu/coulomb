@@ -46,8 +46,6 @@ public class graph extends Pane {
         q1.getData().add(q1v);
         q2.getData().add(q2v);
 
-        System.out.println(q1);
-
         this.getChildren().add(chart);
     }
 
@@ -68,8 +66,6 @@ public class graph extends Pane {
 
         q1.getData().add(q1v);
         q2.getData().add(q2v);
-
-        System.out.println(q1);
 
         this.getChildren().add(chart);
     }

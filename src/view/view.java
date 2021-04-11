@@ -8,8 +8,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import main.graph;
 import controller.controller;
-import javafx.scene.shape.Polygon;
-import javafx.scene.transform.Rotate;
+import javafx.scene.control.Button;
 
 /**
  *
@@ -39,6 +38,8 @@ public class view {
     TextField q2xT = new TextField("0");
     TextField q1yT = new TextField("0");
     TextField q2yT = new TextField("0");
+    
+    Button resetB = new Button("Reset");
 
     public view() {
         root.setCenter(graph);
@@ -64,6 +65,8 @@ public class view {
         inputs.add(q2xT, 1, 3);
         inputs.add(q1yT, 2, 2);
         inputs.add(q2yT, 2, 3);
+        
+        inputs.add(resetB, 0, 6);
     }
 
     public BorderPane setView() {
@@ -110,4 +113,8 @@ public class view {
         this.forceV.setText(forceV);
     }
 
+    public Button getResetB() {
+        return resetB;
+    }
+    
 }
